@@ -1,7 +1,6 @@
 import { Link, useLoaderData } from "react-router-dom";
 import Banner from "./Banner";
 import FeatureItem from "./FeatureItem";
-import Logo from "./Logo";
 import Quality from "./Quality";
 import CardCoffee from "./CardCoffee";
 import { useState } from "react";
@@ -12,7 +11,6 @@ function Home() {
 
   return (
     <>
-      <Logo></Logo>
       <Banner></Banner>
       <Quality></Quality>
       {/* Our Popular Products */}

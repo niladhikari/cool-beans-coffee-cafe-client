@@ -1,6 +1,6 @@
 import { useLoaderData } from "react-router-dom";
 import Swal from "sweetalert2";
-import Logo from "./Logo";
+
 
 const UpdateCoffee = () => {
   const coffee = useLoaderData();
@@ -54,7 +54,6 @@ const UpdateCoffee = () => {
   };
   return (
     <div>
-        <Logo></Logo>
       <div className="bg-[#F4F3F0] p-24">
         <h2 className="text-3xl font-extrabold">Update Coffee : {name}</h2>
         <form onSubmit={handleUpdateCoffee}>
