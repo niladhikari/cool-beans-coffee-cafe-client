@@ -1,0 +1,15 @@
+.background{
+    background-image: url("/public/3.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-blend-mode: overlay;
+}
+
+.background2{
+    background-image: url("/public/1.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-blend-mode: overlay;
+}
