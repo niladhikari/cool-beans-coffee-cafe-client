@@ -22,6 +22,7 @@ const Logo = () => {
       <div className=" flex gap-4 text-white" >
         <NavLink to={"/users"}>User</NavLink>
         <NavLink to={"/signup"}>SignUp</NavLink>
+        <NavLink to={"/signin"}>SignIn</NavLink>
       </div>
     </div>
   );
