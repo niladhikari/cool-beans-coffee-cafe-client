@@ -1,45 +1,64 @@
-import Swal from 'sweetalert2';
-import useAuth from './../Hook/useAuth';
+import Swal from "sweetalert2";
+import useAuth from "./../Hook/useAuth";
+import axios from "axios";
 
 const SignUp = () => {
-  const {createUser} = useAuth()
+  const { createUser } = useAuth();
 
   const handleSignUp = (e) => {
     e.preventDefault();
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
-    console.log(email,password);
+    console.log(email, password);
 
-    createUser(email,password)
-    .then(result=>{
-        console.log(result.user);
-        const createAt = result.user?.metadata?.creationTime;
-        const user = {email,createdAt:createAt}
+    createUser(email, password).then((result) => {
+      console.log(result.user);
+      const createAt = result.user?.metadata?.creationTime;
+      const user = { email, createdAt: createAt };
 
-        fetch("https://cool-beans-coffee-cafe-server-lsp4sgzxy-hridoys-projects.vercel.app/user",{
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(user),
+      // post method is axios
+      axios
+        .post("http://localhost:5000/user", user)
+        .then((data) => {
+          if (data.data.insertedId) {
+            Swal.fire({
+              title: "Success!",
+              text: "Coffee Added Successfully",
+              icon: "success",
+              confirmButtonText: "Cool",
+            });
+          }
         })
-        .then(res=> res.json())
-        .then(data=>{
-            console.log(data);
-            if (data.insertedId) {
-                Swal.fire({
-                  title: "Success!",
-                  text: "Coffee Added Successfully",
-                  icon: "success",
-                  confirmButtonText: "Cool",
-                });
-              }
-        })
-    })
-    .catch(error=>{
-        console.error(error.message);
-    })
+        .catch((error) => {
+          console.error(error.message);
+        });
+    });
+
+    //post method in fetch
+    //     fetch("http://localhost:5000/user",{
+    //         method: "POST",
+    //         headers: {
+    //           "Content-Type": "application/json",
+    //         },
+    //         body: JSON.stringify(user),
+    //     })
+    //     .then(res=> res.json())
+    //     .then(data=>{
+    //         console.log(data);
+    //         if (data.insertedId) {
+    //             Swal.fire({
+    //               title: "Success!",
+    //               text: "Coffee Added Successfully",
+    //               icon: "success",
+    //               confirmButtonText: "Cool",
+    //             });
+    //           }
+    //     })
+    // })
+    // .catch(error=>{
+    //     console.error(error.message);
+    // })
   };
   return (
     <div>
@@ -49,8 +68,7 @@ const SignUp = () => {
             <h1 className="text-5xl font-bold">Sign Up now!</h1>
           </div>
           <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-            <form onSubmit={handleSignUp}
-               className="card-body">
+            <form onSubmit={handleSignUp} className="card-body">
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Email</span>

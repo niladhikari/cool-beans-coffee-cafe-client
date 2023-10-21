@@ -27,7 +27,7 @@ const AddCoffee = () => {
     };
     console.log(newCoffee);
 
-    fetch("https://cool-beans-coffee-cafe-server-lsp4sgzxy-hridoys-projects.vercel.app/coffee", {
+    fetch("http://localhost:5000/coffee", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

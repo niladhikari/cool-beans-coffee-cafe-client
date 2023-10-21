@@ -1,5 +1,6 @@
 import Swal from "sweetalert2";
 import useAuth from "../Hook/useAuth";
+import axios from "axios";
 
 const SignIn = () => {
   const { userSignIn } = useAuth();
@@ -10,37 +11,55 @@ const SignIn = () => {
     const password = form.password.value;
     console.log(email, password);
 
-    userSignIn(email, password)
-      .then((result) => {
-        console.log(result.user);
-        const user = {
-          email,
-          lastLoggedAt: result.user?.metadata?.lastSignInTime,
-        };
-        // update last logged in database
-        fetch("https://cool-beans-coffee-cafe-server-lsp4sgzxy-hridoys-projects.vercel.app/user", {
-          method: "PATCH",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify(user),
+    userSignIn(email, password).then((result) => {
+      console.log(result.user);
+      const user = {
+        email,
+        lastLoggedAt: result.user?.metadata?.lastSignInTime,
+      };
+
+      // update last logged in database using axios
+      axios
+        .patch("http://localhost:5000/user", user)
+        .then((data) => {
+          if (data.data.modifiedCount > 0) {
+            Swal.fire({
+              title: "Success!",
+              text: "Coffee Updated Successfully",
+              icon: "success",
+              confirmButtonText: "Cool",
+            });
+          }
         })
-          .then((res) => res.json())
-          .then((data) => {
-            console.log(data);
-            if (data.modifiedCount > 0) {
-              Swal.fire({
-                title: "Success!",
-                text: "Coffee Updated Successfully",
-                icon: "success",
-                confirmButtonText: "Cool",
-              });
-            }
-          });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+        .catch((error) => {
+          console.error(error);
+        });
+
+      // update last logged in database using fetch
+      //   fetch("http://localhost:5000/user", {
+      //     method: "PATCH",
+      //     headers: {
+      //       "content-type": "application/json",
+      //     },
+      //     body: JSON.stringify(user),
+      //   })
+      //     .then((res) => res.json())
+      //     .then((data) => {
+      //       console.log(data);
+      //       if (data.modifiedCount > 0) {
+      //         Swal.fire({
+      //           title: "Success!",
+      //           text: "Coffee Updated Successfully",
+      //           icon: "success",
+      //           confirmButtonText: "Cool",
+      //         });
+      //       }
+      //     });
+      // })
+      // .catch((error) => {
+      //   console.error(error);
+      
+    });
   };
 
   return (
